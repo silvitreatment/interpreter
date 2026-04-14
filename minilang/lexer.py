@@ -62,10 +62,18 @@ class Lexer(BaseModel):
             type_=TokenType.NUMBER, value=result, line=self.line, column=self.column
         )
 
+    def identifier(self) -> Token:
+        """Собирает буквы в имена переменных или ключевые слова."""
+
     def get_next_token(self) -> Token:
         """Лексический анализатор: определяет, какой токен идет следующим."""
         pass
 
     def tokenize(self):
-        """Удобная функция, чтобы сразу получить весь список токенов."""
-        pass
+        tokens: list[Token] = []
+        token: Token = self.get_next_token()
+        while token.type_ != TokenType.EOF:
+            tokens.append(token)
+            token = self.get_next_token()
+        tokens.append(token)
+        return tokens
